@@ -1,4 +1,11 @@
 #!/bin/bash
+# Usage: ./build.sh <ffmpeg_version> <nvidia_sdk_version>
+# Example: ./build.sh 6.0 12.0
+#
+# Parameters:
+#   ffmpeg_version: FFmpeg version number (e.g., 6.0, 5.1.3)
+#   nvidia_sdk_version: NVIDIA SDK version (e.g., 12.0, 11.1)
+#
 set -ex
 #
 echo "FFmpeg ${1} Nvenc ${2}"
