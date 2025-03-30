@@ -15,18 +15,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: debian:12
-      options: --privileged
-    
     steps:
       - uses: actions/checkout@v3
 
       - name: Set up build environment
-        run: |
-          apt-get update
-          apt-get install -y sudo git
-          chmod +x build.sh
+        run: sudo chmod +x build.sh
 
       - name: Build FFmpeg
         run: sudo ./build.sh ${{ github.event.inputs.ffmpeg_version }} ${{ github.event.inputs.nvenc_version }}
