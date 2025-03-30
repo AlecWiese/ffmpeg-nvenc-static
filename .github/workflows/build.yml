@@ -15,17 +15,35 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: debian:12
+      options: --privileged
+
+    permissions:
+      contents: read
+      packages: read
+      actions: write
+    
     steps:
       - uses: actions/checkout@v3
 
       - name: Set up build environment
-        run: sudo chmod +x build.sh
+        run: |
+          apt-get update
+          apt-get install -y sudo git
+          chmod +x build.sh
+          mkdir -p /github/home
 
       - name: Build FFmpeg
         run: sudo ./build.sh ${{ github.event.inputs.ffmpeg_version }} ${{ github.event.inputs.nvenc_version }}
+
+      - name: Prepare artifacts
+        run: |
+          mkdir -p /github/home/artifacts
+          cp /tmp/bin/ffmpeg-${{ github.event.inputs.ffmpeg_version }}-nvenc-${{ github.event.inputs.nvenc_version }}.tar /github/home/artifacts/
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: ffmpeg-${{ github.event.inputs.ffmpeg_version }}-nvenc-${{ github.event.inputs.nvenc_version }}
-          path: /tmp/bin/ffmpeg-${{ github.event.inputs.ffmpeg_version }}-nvenc-${{ github.event.inputs.nvenc_version }}.tar
+          path: /github/home/artifacts/*.tar
