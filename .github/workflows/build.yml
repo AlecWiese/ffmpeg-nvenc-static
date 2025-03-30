@@ -17,7 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v2
+
+      - name: Debug Info
+        run: |
+          echo "Runner version: $(github-runner --version)"
+          echo "Ubuntu version: $(lsb_release -a)"
+          echo "Working directory: $(pwd)"
 
       - name: Set up build environment
         run: sudo chmod +x build.sh
@@ -25,9 +31,13 @@ jobs:
       - name: Build FFmpeg
         run: sudo ./build.sh ${{ github.event.inputs.ffmpeg_version }} ${{ github.event.inputs.nvenc_version }}
 
+      - name: List artifacts
+        run: |
+          ls -la /tmp/bin/
+          file /tmp/bin/*.tar
+
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v2
         with:
           name: ffmpeg-${{ github.event.inputs.ffmpeg_version }}-nvenc-${{ github.event.inputs.nvenc_version }}
           path: /tmp/bin/*.tar
-          retention-days: 5
