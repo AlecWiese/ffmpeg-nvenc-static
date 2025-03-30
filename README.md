@@ -1,6 +1,7 @@
 # ffmpeg-nvenc-static
 [![FFmpeg Nvenc Build](https://github.com/HiWay-Media/ffmpeg-nvenc-static/actions/workflows/build.yml/badge.svg)](https://github.com/HiWay-Media/ffmpeg-nvenc-static/actions/workflows/build.yml)
 
+This **very in-progress** is a fork of ffmpeg-nvenc-static to try create a easy to use build action so you can specify the ffmpeg and nvenc version. Inspied by needing to build a speific version to work with an old Nvidia GPU, and not wanting to have to setup the build enviroment locally.
 
 ffmpeg-nvenc-static is a repository that provides a statically compiled version of FFmpeg with NVIDIA NVENC support. This version of FFmpeg allows you to leverage the hardware-accelerated video encoding capabilities of NVIDIA GPUs through NVENC.
 
